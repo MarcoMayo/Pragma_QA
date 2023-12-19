@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+defaultTasks 'clean', 'test', 'aggregate'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.0")
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext{
+    serenityVersion = '3.6.12'
+}
+
+dependencies {
+    testImplementation "net.serenity-bdd:serenity-core:$rootProject.ext.serenityVersion",
+            "net.serenity-bdd:serenity-junit5:$rootProject.ext.serenityVersion",
+            "net.serenity-bdd:serenity-screenplay:$rootProject.ext.serenityVersion",
+            "net.serenity-bdd:serenity-ensure:$rootProject.ext.serenityVersion",
+            "net.serenity-bdd:serenity-cucumber:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-screenplay:$rootProject.ext.serenityVersion",
+            "net.serenity-bdd:serenity-screenplay-webdriver:$rootProject.ext.serenityVersion"
+
+}
+
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
