@@ -38,6 +38,10 @@ dependencies {
 
 }
 
+tasks.withType(Test){
+    systemProperties = System.properties as Map<String, ?>
+    maxParallelForks = Runtime.runtime.availableProcessors()
+}
 
 gradle.startParameter.continueOnFailure = true
 
